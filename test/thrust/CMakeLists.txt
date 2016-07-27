@@ -1,0 +1,24 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+PROJECT(ArrayFire-Extras-Tests)
+
+FIND_PACKAGE(ArrayFire REQUIRED)
+INCLUDE_DIRECTORIES(${ArrayFire_INCLUDE_DIRS})
+
+FIND_PACKAGE(CUDA REQUIRED)
+INCLUDE_DIRECTORIES(${CUDA_INCLUDE_DIRS})
+
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+
+FILE(GLOB CPP_FILES "*.cpp")
+
+IF(ArrayFire_CUDA_FOUND)
+    ADD_EXECUTABLE(test_thrust ${CPP_FILES})
+    TARGET_LINK_LIBRARIES(test_thrust ${ArrayFire_CUDA_LIBRARIES}
+                                      ${GTEST_LIBRARIES}
+                                      ${CMAKE_THREAD_LIBS_INIT}
+                                      ${CUDA_LIBRARIES}
+                                      )
+ENDIF()
+
+
